@@ -72,8 +72,18 @@ export const App: FC = () => {
         <Nav />
 
         {/** Main content */}
-        <div className="flex-1 overflow-hidden">
-          <PageComponent />
+        <div className="flex-1 flex flex-col p-2 gap-2 overflow-hidden">
+
+          {/** Page Header */}
+          <div>
+            <h1 className="text-2xl font-bold">{pageManifest[page].label}</h1>
+          </div>
+
+
+          {/** Page Body */}
+          <div className="flex-1 overflow-hidden">
+            {PageComponent && <PageComponent />}
+          </div>
         </div>
 
       </div>
