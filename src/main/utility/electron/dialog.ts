@@ -68,3 +68,22 @@ export async function openOldDatabaseDialog(window: BrowserWindow): Promise<stri
   }
   return openReturn.filePaths[0] ?? null;
 }
+
+
+/**
+ * Ask the user to confirm an action
+ * 
+ * @param window 
+ * @param message 
+ * @returns 
+ */
+export async function openConfirmDialog(window: BrowserWindow, message: string): Promise<boolean> {
+  const confirmReturn = await dialog.showMessageBox(window, {
+    type: 'question',
+    buttons: ['Yes', 'No'],
+    defaultId: 1,
+    title: 'Confirm',
+    message: message,
+  })
+  return confirmReturn.response === 0;
+}

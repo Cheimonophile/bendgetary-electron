@@ -39,7 +39,7 @@ export const NavButton: FC<NavButtonProps> = ({
 
   return (
     <button
-      className="p-2 flex flex-col items-center justify-center overflow-hidden text-ball-yellow relative hover:backdrop-brightness-90"
+      className="p-2 flex flex-col items-center justify-center overflow-hidden text-ball-yellow relative hover:backdrop-brightness-90 active:backdrop-brightness-75"
       onClick={() => setCurrentPage(page)}>
       <Icon
         className="size-6"

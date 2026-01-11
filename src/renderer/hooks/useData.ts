@@ -4,7 +4,7 @@ import { useObserveBackend } from "./useObserverBackend";
 /**
  * Callback function for the getDataHook
  */
-export interface GetDataFn<T> {
+export interface GetDataCallback<T> {
   (): Promise<T>;
 }
 
@@ -17,15 +17,22 @@ export interface GetDataFn<T> {
  * @param callback 
  * @returns 
  */
-export function useData<T>(callback: GetDataFn<T>) {
-  const [data, setData] = useState<T | undefined>(undefined);
+export function useData<T>(callback: GetDataCallback<T>) {
+  const [data, setData] = useState<T | null | undefined>(undefined);
 
   /**
    * Fetches the data from the main process
    */
   const getData = useCallback(async () => {
-    const data = await callback();
-    setData(data);
+    try {
+      const data = await callback();
+      setData(data);
+    }
+    catch (caught) {
+      console.error(caught)
+      setData(null);
+    }
+
   }, [callback]);
 
   /**
@@ -43,8 +50,6 @@ export function useData<T>(callback: GetDataFn<T>) {
    * Get the data every time the backend notifies that the data has changed
    */
   useObserveBackend(getData);
-
-
 
   return data;
 }

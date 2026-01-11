@@ -4,10 +4,13 @@ import { NavButton } from "./NavButton";
 
 export const Nav: FC = () => {
   return (
-    <div className="w-16 flex flex-col bg-ball-grey">
+    <nav className="w-24 flex flex-col bg-ball-grey">
       <NavButton page="battles" />
+      <NavButton page="species" />
+      <NavButton page="locations" />
+      <NavButton page="playthroughs" />
       <div className="flex-1" />
       <NavButton page="settings" />
-    </div>
+    </nav>
   )
 }

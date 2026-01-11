@@ -8,7 +8,12 @@ import { createDatabaseDialog, openDatabaseDialog, openOldDatabaseDialog } from 
  * Handler for getting the current database path
  */
 channels.getDatabasePath.mainHandle(async () => {
-  return databaseManager.database?.path ?? null;
+  try {
+    return databaseManager.getDatabase().path;
+  }
+  catch {
+    return null;
+  }
 })
 
 

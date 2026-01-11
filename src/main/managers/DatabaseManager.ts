@@ -24,12 +24,28 @@ export class DatabaseManager {
   /**
    * The currently connected database
    */
-  public get database(): DatabaseConnection | null {
+  private get database(): DatabaseConnection | null {
     return this._database;
   }
   private set database(database: DatabaseConnection | null) {
     this._database = database;
   }
+
+  /**
+   * Gets the currently connected database
+   * 
+   * @returns
+   * 
+   * @throws {Error} if no database is connected
+   */
+  public getDatabase(): DatabaseConnection {
+    if (!this._database) {
+      throw new Error('No database is open');
+    }
+    return this._database;
+  }
+
+
 
   /**
    * Opens a database connection

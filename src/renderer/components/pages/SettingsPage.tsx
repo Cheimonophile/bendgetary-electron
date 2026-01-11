@@ -1,8 +1,8 @@
-import { useDatabase } from "@renderer/hooks/data/useDatabase";
 import { PageFC } from "@renderer/interfaces/components/PageFC";
 import { MouseEventHandler, useCallback } from "react";
-import { BallButton } from "../form/BallButton";
+import { GButton } from "../form/GButton";
 import { useAppContext } from "@renderer/app";
+import { useDatabase } from "@renderer/hooks/data/databaseHooks";
 
 
 
@@ -30,7 +30,7 @@ export const SettingsPage: PageFC = () => {
     finally {
       setIsLoading(false);
     }
-  }, [])
+  }, [setIsLoading])
 
 
   /**
@@ -44,7 +44,7 @@ export const SettingsPage: PageFC = () => {
     finally {
       setIsLoading(false);
     }
-  }, [])
+  }, [setIsLoading])
 
   /**
    * Function to create a new database from the old database when the create database from old button is pressed
@@ -57,12 +57,11 @@ export const SettingsPage: PageFC = () => {
     finally {
       setIsLoading(false);
     }
-  }, [])
+  }, [setIsLoading])
 
 
   return (
-    <div className="w-full h-full flex flex-col p-2 gap-2 overflow-y-auto">
-      <div className="text-xl">Settings</div>
+    <div className="w-full h-full flex flex-col gap-2 overflow-y-auto">
 
       {/** Database Section */}
       <div>
@@ -70,13 +69,10 @@ export const SettingsPage: PageFC = () => {
 
         {/** Buttons */}
         <div className="flex gap-1">
-          <BallButton onClick={handleOnClickOpenDatabase} text="Open Database" />
-          <BallButton onClick={handleOnClickCreateDatabase} text="Create Database" />
-          <BallButton onClick={handleOnClickCreateDatabaseFromOld} text="Create Database From Old" />
+          <GButton onClick={handleOnClickOpenDatabase} text="Open Database" />
+          <GButton onClick={handleOnClickCreateDatabase} text="Create Database" />
+          <GButton onClick={handleOnClickCreateDatabaseFromOld} text="Create Database From Old" />
         </div>
-
-
-
 
 
       </div>

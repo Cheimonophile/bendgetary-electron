@@ -1,9 +1,14 @@
 
 
 /**
- * The version of the game
+ * A pokemon version
  */
 export interface Version {
+
+  /**
+   * The id of the version
+   */
+  readonly id: string;
 
   /**
    * The name of the version
@@ -14,4 +19,10 @@ export interface Version {
    * The generation of the version
    */
   readonly generation: number;
+
+  /**
+   * Is this version a fanmade version
+   */
+  readonly fanmade: boolean;
+
 }
