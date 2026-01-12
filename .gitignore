@@ -98,3 +98,4 @@ out/
 
 # pkmndb
 *.pkmndb*
+/prisma/prisma-client

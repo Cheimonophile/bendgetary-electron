@@ -4,6 +4,7 @@ import fs from "fs";
 import { app } from "electron";
 import path from "path";
 import { createFileBackup, deleteFileIfExists } from "@main/utility/fs";
+import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 
 /**
  * The directory of the migrations.
@@ -158,15 +159,25 @@ export class DatabaseConnection {
 
 
   /**
+   * Get an instance of the prisma client for a given database file
+   * @param filePath 
+   * @returns 
+   */
+  static getPrismaClient(filePath: string): PrismaClient {
+    const adapter = new PrismaBetterSqlite3({ url: `file:${filePath}` });
+    const prisma = new PrismaClient({ adapter });
+    return prisma;
+  }
+
+
+  /**
    * Creates a new database connection.
    * 
    * @param filePath The path of the database
    */
   static async open(filePath: string): Promise<DatabaseConnection> {
     await createFileBackup(filePath);
-    const prisma = new PrismaClient({
-      datasourceUrl: `file:${filePath}`,
-    });
+    const prisma = DatabaseConnection.getPrismaClient(filePath);
     await migrate(prisma);
     const database = new DatabaseConnection(filePath, prisma);
     return database
@@ -175,18 +186,16 @@ export class DatabaseConnection {
   /**
    * Attempts to create a database connection.
    * 
-   * @param filepath 
+   * @param filePath 
    * @returns 
    */
-  static async create(filepath: string): Promise<DatabaseConnection> {
-    if (fs.existsSync(filepath)) {
-      throw new Error(`Database already exists at ${filepath}`);
+  static async create(filePath: string): Promise<DatabaseConnection> {
+    if (fs.existsSync(filePath)) {
+      throw new Error(`Database already exists at ${filePath}`);
     }
-    const prisma = new PrismaClient({
-      datasourceUrl: `file:${filepath}`,
-    });
+    const prisma = DatabaseConnection.getPrismaClient(filePath);
     await migrate(prisma);
-    const database = new DatabaseConnection(filepath, prisma);
+    const database = new DatabaseConnection(filePath, prisma);
     return database
   }
 

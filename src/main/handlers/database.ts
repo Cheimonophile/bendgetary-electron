@@ -1,7 +1,7 @@
 import { channels } from "@common/channels";
 import { databaseManager } from "@main/managers";
 import { getBrowserWindowFromWebContents } from "@main/utility/electron";
-import { createDatabaseDialog, openDatabaseDialog, openOldDatabaseDialog } from "@main/utility/electron/dialog";
+import { createDatabaseDialog, openDatabaseDialog } from "@main/utility/electron/dialog";
 
 
 /**
@@ -44,23 +44,4 @@ channels.openDatabase.mainHandle(async (event) => {
     return;
   }
   await databaseManager.openDatabase(filePath);
-});
-
-/**
- * Create the database fromt he old database
- */
-channels.createDatabaseFromOld.mainHandle(async (event) => {
-  const window = getBrowserWindowFromWebContents(event.sender);
-  const oldFilePath = await openOldDatabaseDialog(window);
-  if (!oldFilePath) {
-    return;
-  }
-  const newFilePath = await createDatabaseDialog(window);
-  if (!newFilePath) {
-    return;
-  }
-  await databaseManager.createDatabase(newFilePath, {
-    overwrite: true
-  });
-  await databaseManager.loadOldDatabase(oldFilePath);
 });
